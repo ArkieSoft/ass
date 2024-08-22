@@ -1,4 +1,4 @@
-#!/run/current-system/sw/bin/bash
+#!/usr/bin/env bash
 
 play -q /etc/nixos/sounds/brb.mp3&
 figlet "WE'LL" | lolcat

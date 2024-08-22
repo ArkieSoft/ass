@@ -1,12 +1,12 @@
-#!/run/current-system/sw/bin/bash
+#!/usr/bin/env bash
 
 if [[ $(pgrep hydro.sh) ]];then
   echo "hydro.sh found, closing"
-  pkill hydro.sh
+  pkill hydro
   dunstify -t 2000 "Hydro is off"
 else
   echo "Starting hydro.sh"
   dunstify -t 2000 "Hydro is on"
-  /etc/nixos/scripts/hydro.sh &
+  hydro &
   exit
 fi
