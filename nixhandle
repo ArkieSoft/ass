@@ -3,7 +3,6 @@
 platform="$(uname)"
 
 switch() {
-  git add .
   case $os in
     m)
       darwin-rebuild switch --flake .
@@ -27,7 +26,6 @@ switch() {
 }
 
 update() {
-  git add .
   case $os in
     m)
       nix flake udpate .
@@ -131,6 +129,8 @@ case $platform in
     exit 1
     ;;
 esac
+
+git add .
 
 case $1 in
   g | git)
