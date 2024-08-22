@@ -6,12 +6,12 @@ switch() {
   case $os in
     m)
       darwin-rebuild switch --flake .
-      figlet "Switched"
+      figlet "Switched" | lolcat
       nixgit
       ;;
     n)
       nixos-rebuild --use-remote-sudo switch
-      figlet "Switched"
+      figlet "Switched" | lolcat
       nixgit
       ;;
     l)
@@ -29,13 +29,13 @@ update() {
   case $os in
     m)
       nix flake udpate .
-      figlet "Updooted"
+      figlet "Updooted" | lolcat
       nixgit
       ;;
     n)
       sudo nix flake update
       nixos-rebuild --use-remote-sudo boot
-      figlet "Updooted"
+      figlet "Updooted" | lolcat
       nixgit
 
       ;;
@@ -89,15 +89,15 @@ nixgit() {
   else
     case $1 in
       g | git)
-        figlet "Commit Made"
+        figlet "Commit Made" | lolcat
         exit 1
         ;;
       u | update)
-        figlet "Updated"
+        figlet "Updated" | lolcat
         exit 1
         ;;
       s | switch)
-        figlet "Switched"
+        figlet "Switched" | lolcat
         exit 1
         ;;
       *)
