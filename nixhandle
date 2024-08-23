@@ -60,24 +60,12 @@ nixgit() {
       read commit
       git commit -m "$commit"
     else
-      case $1 in
-        g | git)
-          figlet "This was an exercise in futility" | lolcat
-          exit 1
-          ;;
-        u | update)
-          figlet "Updoot Complete" | lolcat
-          exit 1
-          ;;
-        s | switch)
-          figlet "Switch Complete" | lolcat
-          exit 1
-          ;;
-        *)
-          echo "uhhhhhh"
-          exit 1
-          ;;
-      esac
+      if [[ $1 = g ]] || [[ $1 = "git" ]];then
+        echo "This was a huge waste of time!"
+        exit 1
+      else
+        clean
+      fi
     fi
   
     echo "Do you want to push the commit? [y/N]: "
@@ -86,31 +74,55 @@ nixgit() {
     if [[ $push == y ]] || [[ $push == Y ]];then
       git push
       figlet "Commit Pushed"
-      exit 1
+      if [[ $1 != g ]] && [[ $1 != git ]]; then
+        clean
+      else
+        figlet "Commit Pushed" | lolcat
+        exit 1
+      fi
     else
-      case $1 in
-        g | git)
-          figlet "Commit Made" | lolcat
-          exit 1
-          ;;
-        u | update)
-          figlet "Updated" | lolcat
-          exit 1
-          ;;
-        s | switch)
-          figlet "Switched" | lolcat
-          exit 1
-          ;;
-        *)
-          echo "uhhhh"
-          exit 1
-          ;;
-      esac
+      if [[ $1 = g ]] || [[ $1 = git ]];then
+        echo "This was a huge waste of time"
+        exit 1
+      else
+        clean
+      fi
     fi
-      exit 1
   else
     echo "No Git Repo Found!"
+    clean
+  fi
+}
+
+clean() {
+  echo "Want to clean the old generations and old files? [y/N]: "
+  read clean
+  if [[ $clean == y ]] || [[ $clean == Y ]];then
+    sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations old
+    echo "Cleaning Files"
+    sudo nix store gc
+    sudo nix-collect-garbage
+    figlet "Cleanup Complete" | lolcat
     exit 1
+  else
+    case $1 in
+      g | git)
+        figlet "Commit Made" | lolcat
+        exit 1
+        ;;
+      u | update)
+        figlet "Updated" | lolcat
+        exit 1
+        ;;
+      s | switch)
+        figlet "Switched" | lolcat
+        exit 1
+        ;;
+      *)
+        echo "uhhhh"
+        exit 1
+        ;;
+    esac
   fi
 }
 
@@ -139,13 +151,16 @@ git add .
 
 case $1 in
   g | git)
-    nixgit
+    nixgit $1
     ;;
   u | update)
     update
     ;;
   s | switch)
     switch
+    ;;
+  c | clean)
+    clean $1
     ;;
   *)
     echo "No arguments, provided! g for Git, u for Update, s for Switch"
