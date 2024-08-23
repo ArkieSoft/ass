@@ -4,11 +4,11 @@ ASS is my (Arkannon's) collection of Bash Scripts that I use daily with varying 
 ### autostart
 It is just a basic autostart script. Nothing to write home about. Merely here for the repo
 ### brb
-Silly brb script that plays a tune and sends a message. Dependancies are sox and figlet.
+Silly brb script that plays a tune and sends a message. Dependencies are sox and figlet.
 ### dance
-Another silly script featuring dancing toothless and driftveil city. Dependancies are chafa and sox
+Another silly script featuring dancing toothless and driftveil city. Dependencies are chafa and sox
 ### tbs
-Yet another silly script that does the Jojo's "To Be Continued" meme. Dependancies are sox and chafa
+Yet another silly script that does the Jojo's "To Be Continued" meme. Dependencies are sox and chafa
 ### toggle & hydro
 Whenever toggle activates, it detects whether or not hydro is running, kills it or starts it.
 Hydro will send a notification and play the MGS Alert tone every 15-30 minutes
