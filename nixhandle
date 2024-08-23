@@ -51,62 +51,67 @@ update() {
 }
 
 nixgit() {
-  echo "Do you want to make a commit? [y/N]: "
-  read git
-
-  if [[ $git = y ]] || [[ $git = Y ]];then
-    echo "What to label for commit?: "
-    read commit
-    git commit -m "$commit"
+  if [ -d .git ];then
+    echo "Do you want to make a commit? [y/N]: "
+    read git
+  
+    if [[ $git = y ]] || [[ $git = Y ]];then
+      echo "What to label for commit?: "
+      read commit
+      git commit -m "$commit"
+    else
+      case $1 in
+        g | git)
+          figlet "This was an exercise in futility" | lolcat
+          exit 1
+          ;;
+        u | update)
+          figlet "Updoot Complete" | lolcat
+          exit 1
+          ;;
+        s | switch)
+          figlet "Switch Complete" | lolcat
+          exit 1
+          ;;
+        *)
+          echo "uhhhhhh"
+          exit 1
+          ;;
+      esac
+    fi
+  
+    echo "Do you want to push the commit? [y/N]: "
+    read push
+  
+    if [[ $push == y ]] || [[ $push == Y ]];then
+      git push
+      figlet "Commit Pushed"
+      exit 1
+    else
+      case $1 in
+        g | git)
+          figlet "Commit Made" | lolcat
+          exit 1
+          ;;
+        u | update)
+          figlet "Updated" | lolcat
+          exit 1
+          ;;
+        s | switch)
+          figlet "Switched" | lolcat
+          exit 1
+          ;;
+        *)
+          echo "uhhhh"
+          exit 1
+          ;;
+      esac
+    fi
+      exit 1
   else
-    case $1 in
-      g | git)
-        figlet "This was an exercise in futility" | lolcat
-        exit 1
-        ;;
-      u | update)
-        figlet "Updoot Complete" | lolcat
-        exit 1
-        ;;
-      s | switch)
-        figlet "Switch Complete" | lolcat
-        exit 1
-        ;;
-      *)
-        echo "uhhhhhh"
-        exit 1
-        ;;
-    esac
-  fi
-
-  echo "Do you want to push the commit? [y/N]: "
-  read push
-
-  if [[ $push == y ]] || [[ $push == Y ]];then
-    git push
-    figlet "Commit Pushed"
+    echo "No Git Repo Found!"
     exit 1
-  else
-    case $1 in
-      g | git)
-        figlet "Commit Made" | lolcat
-        exit 1
-        ;;
-      u | update)
-        figlet "Updated" | lolcat
-        exit 1
-        ;;
-      s | switch)
-        figlet "Switched" | lolcat
-        exit 1
-        ;;
-      *)
-        echo "uhhhh"
-        exit 1
-        ;;
-    esac
   fi
-    exit 1
 }
 
 case $platform in
