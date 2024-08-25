@@ -28,7 +28,7 @@ switch() {
 update() {
   case $os in
     m)
-      nix flake udpate .
+      nix flake update .
       figlet "Updooted" | lolcat
       nixgit
       ;;
@@ -147,7 +147,9 @@ case $platform in
     ;;
 esac
 
-git add .
+if [[ -d .git ]];then
+  git add .
+fi
 
 case $1 in
   g | git)
