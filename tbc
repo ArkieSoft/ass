@@ -1,5 +1,5 @@
-#!/run/current-system/sw/bin/bash
+#!/usr/bin/env bash
 
-play -q /etc/nixos/sounds/tbc.mp3&
+play -q tbcaudio&
 sleep 9.5
-chafa --bg 181818 -d 5 --scale max /etc/nixos/assets/tbc.gif
+chafa --bg 181818 -d 5 --scale max tbcgif

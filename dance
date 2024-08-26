@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-play -q --replay-gain track /etc/nixos/sounds/driftveil.mp3&
+play -q --replay-gain track driftveil&
 clear
-chafa --bg 181818 -C on --scale 2 /etc/nixos/assets/toothless.gif
+chafa --bg 181818 -C on --scale 2 toothless

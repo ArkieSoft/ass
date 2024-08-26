@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-play -q /etc/nixos/sounds/brb.mp3&
+play -q brb&
 figlet "WE'LL" | lolcat
 sleep .75s
 figlet "        BE" | lolcat
