@@ -2,9 +2,9 @@
 
 play -q ~/nix/sounds/brb.mp3&
 figlet "WE'LL" | lolcat
-sleep .75s
+sleep .75
 figlet "        BE" | lolcat
-sleep .75s
+sleep .75
 figlet "                RIGHT" | lolcat
-sleep .5s
+sleep .5
 figlet "                            BACK" | lolcat
