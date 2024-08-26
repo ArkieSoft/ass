@@ -29,6 +29,7 @@ update() {
   case $os in
     m)
       nix flake update .
+      darwin-rebuild switch --flake .
       figlet "Updooted" | lolcat
       nixgit
       ;;
