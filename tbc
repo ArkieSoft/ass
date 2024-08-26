@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-play -q tbcaudio&
+play -q ~/nix/sounds/tbc.mp3&
 sleep 9.5
-chafa --bg 181818 -d 5 --scale max tbcgif
+chafa --bg 181818 -d 5 --scale max ~/nix/assets/tbc.gif

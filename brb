@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-play -q brb&
+play -q ~/nix/sounds/brb.mp3&
 figlet "WE'LL" | lolcat
 sleep .75s
 figlet "        BE" | lolcat
