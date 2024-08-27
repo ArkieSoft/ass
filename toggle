@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
-platform="${uname}"
+platform="$(uname)"
 if [[ $(pgrep -fl hydro-wrapped) ]];then
   echo "hydro.sh found, closing"
-  pkill -fl hydro-wrapped
-  if [[ $platform = "Linux" ]];then
+  if [[ $platform == Linux ]];then
+    pkill -f hydro-wrapped
     dunstify -t 2000 "Hydro is off"
   else
+    pkill -fl hydro-wrapped
     osascript -e 'display notification "Hydro is off" with title "Hydro"'
   fi
 else
   echo "Starting hydro.sh"
-  if [[ $platform = "Linux" ]];then
+  if [[ $platform == Linux ]];then
     dunstify -t 2000 "Hydro is on"
   else
     osascript -e 'display notification "Hydro is on" with title "Hydro"'
