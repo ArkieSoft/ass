@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
-
+platform="${uname}"
 if [[ $(pgrep hydro) ]];then
   echo "hydro.sh found, closing"
   pkill hydro
-  dunstify -t 2000 "Hydro is off"
+  if [[ $platform = "Linux" ]];then
+    dunstify -t 2000 "Hydro is off"
+  else
+    osascript -e 'display notification "Hydro is off" with title "Hydro"'
+  fi
 else
   echo "Starting hydro.sh"
-  dunstify -t 2000 "Hydro is on"
+  if [[ $platform = "Linux" ]];then
+    dunstify -t 2000 "Hydro is on"
+  else
+    osascript -e 'display notification "Hydro is on" with title "Hydro"'
+  fi
   hydro &
   exit
 fi
