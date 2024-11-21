@@ -31,12 +31,14 @@ update() {
       nix flake update .
       darwin-rebuild switch --flake .
       figlet "Updooted" | lolcat
+      git add .
       nixgit
       ;;
     n)
       sudo nix flake update
       nixos-rebuild --use-remote-sudo boot
       figlet "Updooted" | lolcat
+      git add .
       nixgit
 
       ;;
