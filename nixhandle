@@ -110,6 +110,7 @@ clean() {
     echo "Cleaning Files"
     sudo nix store gc
     sudo nix-collect-garbage
+    sudo nix store optimise
     figlet "Cleanup Complete" | lolcat
     exit 1
   elif [[ $clean = e ]] || [[ $clean = exit ]];then
