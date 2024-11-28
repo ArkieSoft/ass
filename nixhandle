@@ -28,7 +28,7 @@ switch() {
 update() {
   case $os in
     m)
-      nix flake update .
+      nix flake update --flake .
       darwin-rebuild switch --flake .
       figlet "Updooted" | lolcat
       git add .
