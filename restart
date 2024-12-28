@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+host=$(hostname)
+
+restart() {
+  sudo systemctl restart navidrome.service
+  echo "Restarted Navidrome"
+  sudo systemctl restart lidarr.service
+  echo "Restarted Lidarr"
+  sudo systemctl restart sonarr.service
+  echo "Restarted Sonarr" 
+  sudo systemctl restart radarr.service
+  echo "Restarted Radarr"
+  sudo systemctl restart prowlarr.service 
+  echo "Restarted Prowlarr"
+  echo "Restarted the "Arrs""
+  sudo systemctl restart nextcloud-*.service
+  echo "Restarted Nextcloud"
+  sudo systemctl restart nginx.service
+  echo "Restarted Nginx Web Server"
+  sudo systemctl restart jellyfin.service
+  echo "Restarted Jellyfin"
+  sudo systemctl restart qbittorrent.service
+  echo "Restarted Bittorrent"
+}
+
+if $host == "cloudserver"; then
+  restart
+else
+  echo "Wrong machine"
+fi
