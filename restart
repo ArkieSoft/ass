@@ -13,7 +13,7 @@ restart() {
   echo "Restarted Radarr"
   sudo systemctl restart prowlarr.service 
   echo "Restarted Prowlarr"
-  echo "Restarted the "Arrs""
+  echo "Restarted the 'Arrs'"
   sudo systemctl restart nextcloud-*.service
   echo "Restarted Nextcloud"
   sudo systemctl restart nginx.service
@@ -22,10 +22,13 @@ restart() {
   echo "Restarted Jellyfin"
   sudo systemctl restart qbittorrent.service
   echo "Restarted Bittorrent"
+  echo "Services Restarted"
+  exit 1
 }
 
-if $host == "cloudserver"; then
+if [[ "$host" = "cloudserver" ]]; then
   restart
 else
   echo "Wrong machine"
+  exit 1
 fi
