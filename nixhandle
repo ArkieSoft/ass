@@ -10,7 +10,7 @@ switch() {
       nixgit
       ;;
     n)
-      nixos-rebuild --use-remote-sudo switch
+      nixos-rebuild --use-remote-sudo --impure switch
       figlet "Switched" | lolcat
       nixgit
       ;;
@@ -36,7 +36,7 @@ update() {
       ;;
     n)
       sudo nix flake update
-      nixos-rebuild --use-remote-sudo boot
+      nixos-rebuild --use-remote-sudo --impure boot
       figlet "Updooted" | lolcat
       git add .
       nixgit
