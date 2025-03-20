@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 platform="$(uname)"
+configpath=$HOME/.config/nixh/path
 
 switch() {
   case $os in
@@ -138,18 +139,67 @@ clean() {
   fi
 }
 
+if [[ $1 == "reset" ]]; then
+  rm -rf $HOME/.config/nixh/path
+  echo "Removed saved path at ~/.config/nixh/path. To put in a new one, rerun this application"
+  exit 1
+fi
+
+if [ -f $configpath ]; then
+  while read line; do
+    nixpath=$line
+  done < $configpath
+else
+  if ! [ -d $HOME/.config/nixh ]; then
+    mkdir $HOME/.config/nixh
+  fi
+  case "$platform" in
+    Darwin)
+      echo "Enter a path where you keep your nix config: (Default: ~/.config/nix)"
+      read nixpath
+
+      if ! [ $nixpath ]; then
+        nixpath="$HOME/.config/nix"
+      fi
+      echo "$nixpath" > $configpath
+      ;;
+    Linux)
+      source /etc/os-release
+      if [[ $ID == nixos ]]; then
+        echo "Enter a path where you keep your nix config: (Default: /etc/nixos)"
+        read nixpath
+        if ! [ $nixpath ]; then
+          nixpath="/etc/nixos"
+        fi
+        echo "$nixpath" > $configpath
+      else
+        echo "Enter a path where you keep your nix config: (Default: ~/.config/nix)"
+        read nixpath
+        if ! [ $nixpath ]; then
+          nixpath="$HOME/.config/nix"
+        fi
+        echo "$nixpath" > $configpath
+      fi
+      ;;
+    *)
+      echo "Do you even have an OS at this point?"
+    ;;
+  esac
+fi
+
+
 case $platform in
   Darwin)
-    cd $HOME/.config/nixos
+    cd $nixpath
     os="m"
     ;;
   Linux)
     source /etc/os-release
     if [[ $ID == nixos ]]; then
-      cd /etc/nixos
+      cd $nixpath
       os="n"
     else
-      cd $HOME/.config/nixos
+      cd $nixpath
       os="l"
     fi
     ;;
