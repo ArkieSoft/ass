@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 platform="$(uname)"
-configpath=$HOME/.config/nixh/path
+configpath=$HOME/.config/nixh/conf
 
 switch() {
   case $os in
@@ -16,8 +16,7 @@ switch() {
       nixgit
       ;;
     l)
-      echo "Work in Progress"
-      exit 1
+      home-manager switch --flake .
       ;;
     *)
       echo "uhhh...."
@@ -44,8 +43,8 @@ update() {
 
       ;;
     l)
-      echo "Work in Progress"
-      exit 1
+      nix flake update
+      home-manager switch --flake .
       ;;
     *)
       echo "uhhhh....."
@@ -140,19 +139,18 @@ clean() {
 }
 
 if [[ $1 == "reset" ]]; then
-  rm -rf $HOME/.config/nixh/path
+  rm -rf $HOME/.config/nixh/conf
   echo "Removed saved path at ~/.config/nixh/path. To put in a new one, rerun this application"
   exit 1
 fi
 
 if [ -f $configpath ]; then
-  while read line; do
-    nixpath=$line
-  done < $configpath
+  source $configpath
 else
   if ! [ -d $HOME/.config/nixh ]; then
     mkdir $HOME/.config/nixh
   fi
+  touch $configpath
   case "$platform" in
     Darwin)
       echo "Enter a path where you keep your nix config: (Default: ~/.config/nix)"
@@ -161,7 +159,7 @@ else
       if ! [ $nixpath ]; then
         nixpath="$HOME/.config/nix"
       fi
-      echo "$nixpath" > $configpath
+      echo "NIXPATH=$nixpath" >> $configpath
       ;;
     Linux)
       source /etc/os-release
@@ -171,35 +169,64 @@ else
         if ! [ $nixpath ]; then
           nixpath="/etc/nixos"
         fi
-        echo "$nixpath" > $configpath
+        echo "NIXPATH=$nixpath" >> $configpath
       else
         echo "Enter a path where you keep your nix config: (Default: ~/.config/nix)"
         read nixpath
         if ! [ $nixpath ]; then
           nixpath="$HOME/.config/nix"
         fi
-        echo "$nixpath" > $configpath
+        echo "NIXPATH=$nixpath" >> $configpath
       fi
       ;;
     *)
       echo "Do you even have an OS at this point?"
     ;;
   esac
+  
+  if [ -f "$nixpath/flake.nix" ]; then
+    echo "Are we building off the flake? [y/n];"
+    read qflake
+    if [[ $qflake == "y" ]] || [[ $qflake == "Y" ]]; then
+      FLAKE=1
+      echo "Are you running home-manager as a flake module? [y/n]"
+      read qhm
+      if [[ $qhm = "y" ]] || [[ $qhm = "Y" ]]; then
+        HOME_MANAGER_FLAKE=1
+      elif [[ $qhm = "n" ]] || [[ $qhm = "N" ]]; then
+        echo "Are you running home-manager as standalone? [y/n]"
+        read qhms
+        if [[ $qhms == "y" ]] || [[ $qhms == "Y" ]]; then
+          HOME_MANAGER_FLAKE=2
+        else
+          echo "I am assuming you aren't using home-manager"
+          HOME_MANAGER_FLAKE=0
+        fi
+      fi
+    elif [[ $qflake == "n" ]] || [[ $qflake == "N" ]]; then
+      FLAKE=0
+    else
+      echo "Answer the damn question"
+      exit 1
+    fi
+  fi
+
+  source $configpath
 fi
 
 
 case $platform in
   Darwin)
-    cd $nixpath
+    cd $NIXPATH
     os="m"
     ;;
   Linux)
     source /etc/os-release
     if [[ $ID == nixos ]]; then
-      cd $nixpath
+      cd $NIXPATH
       os="n"
     else
-      cd $nixpath
+      cd $NIXPATH
       os="l"
     fi
     ;;
